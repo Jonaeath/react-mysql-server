@@ -16,11 +16,24 @@ const db = mysql.createConnection({
     database:'collage'
 })
 
-app.get('/users',async(req,res)=>{
+app.get('/',async(req,res)=>{
     const sql = "SELECT * FROM users";
     db.query(sql,(err,data)=>{
         if(err) return res.json(err);
         return res.json(data);
+    })
+})
+
+app.post('/users',(req, res)=>{
+    const sql = "INSERT INTO users (`username`,`email`) VALUES (?)";
+    const values = [
+        req.body.username,
+        req.body.email
+
+    ]
+    db.query(sql,[values], (err, result)=>{
+        if(err) return res.json(err);
+        return res.json(result);
     })
 })
 
